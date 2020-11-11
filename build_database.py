@@ -1,15 +1,14 @@
 import requests
 from visuals import loading_bar, up_lines
 import json
-import os
+from settings import folder_Data, get_path
+
 # scrape xkcd and store comic number, comic url, comic title and comic size into dictionary
 def build_comic_db():
-    # prepare path, folders and files
 
-    os.makedirs('Data', exist_ok=True)
-    cwd = os.path.dirname(os.path.realpath(__file__))
-    # print(path)
-    exit()
+    # prepare path, folders and files
+    path = get_path()
+    folder_Data(path)
 
 
 
@@ -39,11 +38,11 @@ def build_comic_db():
             if current.isdecimal() and int(current) > 0:
                 break
 
-    print(f'Latest comic number: {current}\n')
+    print(f'Latest comic number: {current}\n\n')
 
     # load comic database from json into python dict
     try:
-        json_file = open('data.json',encoding="utf-8")
+        json_file = open('%s/Data/web_data.json'%path,encoding="utf-8")
         comic_db = json.load(json_file)
         json_file.close()
     except FileNotFoundError:
@@ -53,7 +52,7 @@ def build_comic_db():
 
 
 
-    length = current - (len(comic_db.keys()))
+    total = current - (len(comic_db.keys()))
     iterate = 0
     # build comic database
     for comic in range(1, int(current)+1):
@@ -104,15 +103,22 @@ https://xkcd.com/{str(comic)}/info.0.json.\nskipping this comic..\n')
                 continue
 
 
-            print(f'Downloading comic data from https://xkcd.com/{comic_number}')
-            iterate += 1
 
-            loading_bar(iterate, length)
-            if comic_number % 10 == 0:
-                json_file = open('data.json', 'w',encoding="utf-8")
+            up_lines(1)
+            print(f'Downloading comic data from https://xkcd.com/{comic_number}'.ljust(80, ' '))
+            iterate += 1
+            loading_bar(iterate, total)
+
+            if comic_number % 10 == 0: # write to file every 10 iteration
+                json_file = open('%s/Data/web_data.json'%path, 'w',encoding="utf-8")
                 json.dump(comic_db, json_file)
                 json_file.close()
 
+    json_file = open('%s/Data/web_data.json'%path, 'w',encoding="utf-8")
+    json.dump(comic_db, json_file)
+    json_file.close()
+
+    print('Building database is completed.\nThe databases was stored in: %s/Data/web_data.json'%path)
 
 if __name__ == '__main__':
 
