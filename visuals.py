@@ -2,13 +2,19 @@ import sys
 
 def main_menu():
     while True:
-        print('What do you want to do?')
+
         print('''
-    1. Download all comic images from xkcd.com to your hard drive
-    2. Chose a comic to open from the website xkcd.com
-    3. Exit
+                    ------------------
+                    ---XKCD-Connect---
+                    --------by--------
+                    ----Emil Bratt----
+                    ------------------
 ''')
-        choice = input()
+        print('\t\tWhat do you want to do?\n')
+        print('''\t1. Download all comic images your hard drive
+\t2. Chose a comic to open from the website xkcd.com
+\t3. Exit''')
+        choice = input('\t')
         if choice.isdecimal() and int(choice) >= 1 and int(choice) <= 3:
             return int(choice)
 

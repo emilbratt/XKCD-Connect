@@ -7,8 +7,10 @@ def run_main_file():
 
     choice = main_menu()
     if choice == 1:
+        build_comic_db()
         download()
     elif choice == 2:
+        build_comic_db()
         print('2')
     elif choice == 3:
         print('Exiting..')
@@ -17,5 +19,5 @@ def run_main_file():
 
 if __name__ == '__main__':
 
-    build_comic_db()
+
     run_main_file()
