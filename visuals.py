@@ -1,16 +1,15 @@
 import sys
-def all_choices():
+def main_menu():
     while True:
         print('What do you want to do?')
         print('''
-    1. Download all comic images from xkcd.com
-    2. Time the sorting algorithms
-    3. Open sorted comics
-    4. Exit
+    1. Download all comic images from xkcd.com to your hard drive
+    2. Chose a comic to open from the website xkcd.com
+    3. Exit
     ''')
         choice = input()
-        if choice.isdecimal() and int(choice) >= 1 and int(choice) <= 4:
-            return choice
+        if choice.isdecimal() and int(choice) >= 1 and int(choice) <= 3:
+            return int(choice)
 
 
 
@@ -30,8 +29,6 @@ def up_lines(N):
         sys.stdout.write("\033[F")
 
 
-
-import sys
 
 def loading_bar(count,list):
     if list >= 100:
