@@ -1,21 +1,17 @@
 import os
 import requests
-from settings import list_Images, get_path
+
 import json
-from time import sleep
-from settings import folder_Images, get_path
+from database_client import database
 from visuals import loading_bar, up_lines
 
 def download():
-    # prepare path, folders and files
-    path = get_path()
-    folder_Images(path)
 
-    json_file = open('%s/Data/web_data.json'%path,encoding="utf-8")
-    comic_db = json.load(json_file)
-    json_file.close()
+    path = database.get_path()
 
-    stored_images = list_Images()
+    comic_db = database.get_database()
+
+    stored_images = database.list_images()
 
     # extract URLs where we do not have stored the comic
     url_list = []
@@ -35,7 +31,7 @@ def download():
         res.raise_for_status()
 
         # open a binary object file
-        image_file = open(image_path, "wb") #writes binary
+        image_file = open(image_path, "wb") # open byte object
         # ..and write binary data from object file (comic image) to image file
         for bytes in res.iter_content(100000):
             image_file.write(bytes)

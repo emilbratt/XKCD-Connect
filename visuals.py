@@ -3,19 +3,20 @@ import sys
 def main_menu():
     while True:
 
+        print('\n' * 10)
         print('''
-                    ------------------
-                    ---XKCD-Connect---
-                    --------by--------
-                    ----Emil Bratt----
-                    ------------------
+                  ------------------
+                  ---XKCD-Connect---
+                  --------by--------
+                  ----Emil-Bratt----
+                  ------------------
 ''')
         print('\t\tWhat do you want to do?\n')
         print('''\t1. Download all comic images your hard drive
 \t2. Chose a comic to open from xkcd.com
 \t3. Open a random comic from xkcd.com
 \t4. Exit''')
-        choice = input('\t')
+        choice = input('\t\t' + 'Type: ')
         if choice.isdecimal() and int(choice) >= 1 and int(choice) <= 4:
             return int(choice)
 
@@ -58,7 +59,7 @@ def loading_bar(count,total):
         print(f'{percentage}%')
         print(symbol.ljust(50, '-'))
         up_lines(2)
-        if count == total:
+        if count >= total:
             print('100%')
             print(symbol.ljust(50, '|'))
             up_lines(2)
@@ -79,7 +80,8 @@ def loading_bar(count,total):
             base += step
         symbol = ''
         symbol = '|' * N
-
+        if percentage > 100:
+            percentage = 100
         print(f'{percentage}%')
         print(symbol.ljust(10, '-'))
         up_lines(2)

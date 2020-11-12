@@ -1,55 +1,18 @@
 import requests
 from visuals import loading_bar, up_lines
 import json
-from settings import folder_Data, get_path
+from database_client import database
 
-# scrape xkcd and store comic number, comic url, comic title and comic size into dictionary
+# fetch comic number, comic url, comic title and comic size from xkcd.com
 def build_comic_db():
 
-    # prepare path, folders and files
-    path = get_path()
-    folder_Data(path)
+    print('Updating comic database...')
 
-
-
-    print('Building comic database...')
-
-    # download newest json into a response object
-    try:
-        res_obj = requests.get('https://xkcd.com/info.0.json') # this url always contains json for latest comic
-        res_obj.close()
-    except requests.exceptions.ConnectionError:
-        while True:
-            print('Latest comic not found.')
-            current = input('Type in a number manually:\n')
-            if current.isdecimal() and int(current) > 0:
-                break
-
-    # extract comic number from json object
-    try:
-        get_json = res_obj.json() # convert json to python dict
-        current = get_json['num']
-
-    # if extraction failed, type in a comic number manually
-    except json.decoder.JSONDecodeError:
-        while True:
-            print('Latest comic not found.')
-            current = input('Type in a number manually:\n')
-            if current.isdecimal() and int(current) > 0:
-                break
+    current = database.get_latest()
 
     print(f'Latest comic number: {current}\n\n')
 
-    # load comic database from json into python dict
-    try:
-        json_file = open('%s/Data/web_data.json'%path,encoding="utf-8")
-        comic_db = json.load(json_file)
-        json_file.close()
-    except FileNotFoundError:
-        comic_db = {}
-    except json.decoder.JSONDecodeError:
-        comic_db = {}
-
+    comic_db = database.get_database()
 
 
     total = current - (len(comic_db.keys()))
@@ -84,7 +47,7 @@ https://xkcd.com/{str(comic)}/info.0.json.\nskipping this comic..\n')
                 res_obj.close()
                 comic_size = response_object_image.headers.get('content-length')
                 # comic title
-                comic_title = get_json["safe_title"]
+                comic_title = get_json['safe_title']
                 # comic id
                 comic_number = get_json['num']
                 # direct URL to comic image
@@ -110,15 +73,14 @@ https://xkcd.com/{str(comic)}/info.0.json.\nskipping this comic..\n')
             loading_bar(iterate, total)
 
             if comic_number % 10 == 0: # write to file every 10 iteration
-                json_file = open('%s/Data/web_data.json'%path, 'w',encoding="utf-8")
-                json.dump(comic_db, json_file, indent=2)
-                json_file.close()
+                database.update_database(comic_db)
 
-    json_file = open('%s/Data/web_data.json'%path, 'w',encoding="utf-8")
-    json.dump(comic_db, json_file, indent=2)
-    json_file.close()
 
-    print('Building database is completed.\nThe databases was stored in: %s/Data/web_data.json'%path)
+    database.update_database(comic_db)
+
+    print('Building database done.\nThe databases was stored in: %s/Data/web_data.json'%database.get_path())
+
+    return 0
 
 if __name__ == '__main__':
 
