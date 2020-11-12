@@ -12,10 +12,11 @@ def main_menu():
 ''')
         print('\t\tWhat do you want to do?\n')
         print('''\t1. Download all comic images your hard drive
-\t2. Chose a comic to open from the website xkcd.com
-\t3. Exit''')
+\t2. Chose a comic to open from xkcd.com
+\t3. Open a random comic from xkcd.com
+\t4. Exit''')
         choice = input('\t')
-        if choice.isdecimal() and int(choice) >= 1 and int(choice) <= 3:
+        if choice.isdecimal() and int(choice) >= 1 and int(choice) <= 4:
             return int(choice)
 
 def line_separator(arg): # for printing separation lines in terminal

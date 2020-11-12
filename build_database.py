@@ -111,11 +111,11 @@ https://xkcd.com/{str(comic)}/info.0.json.\nskipping this comic..\n')
 
             if comic_number % 10 == 0: # write to file every 10 iteration
                 json_file = open('%s/Data/web_data.json'%path, 'w',encoding="utf-8")
-                json.dump(comic_db, json_file)
+                json.dump(comic_db, json_file, indent=2)
                 json_file.close()
 
     json_file = open('%s/Data/web_data.json'%path, 'w',encoding="utf-8")
-    json.dump(comic_db, json_file)
+    json.dump(comic_db, json_file, indent=2)
     json_file.close()
 
     print('Building database is completed.\nThe databases was stored in: %s/Data/web_data.json'%path)
