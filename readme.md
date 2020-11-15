@@ -3,5 +3,6 @@ As a continuation of an assignment, I figured I would keep working on this proje
 The assignment involved scraping XKCD.com for content. Im using tools and ideas from what Ive learned so far.
 
 INSTRUCTION:
-If youre not on Linux, make sure to download a basic Python enviroment and run main.py.
-Have fun!
+Install Python and run.
+
+Only tested on Fedora 32, but should work on all major platforms.
