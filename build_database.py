@@ -41,38 +41,24 @@ https://xkcd.com/{str(comic)}/info.0.json.\nskipping this comic..\n')
                     sleep(2)
                     continue
             try:
-                # create variables for each value
-                # size
-                response_object_image = requests.get(get_json['img'], stream=True)
-                res_obj.close()
-                comic_size = response_object_image.headers.get('content-length')
-                # comic title
-                comic_title = get_json['safe_title']
-                # comic id
-                comic_number = get_json['num']
-                # direct URL to comic image
-                comic_URL = get_json['img']
 
                 # store data from each variable into comic database
-                comic_db[comic_number] = {
-                'Title': comic_title,
-                'URL': comic_URL,
-                'Size': comic_size
+                comic_db[get_json['num']] = {
+                'Title': get_json['safe_title'],
+                'URL': get_json['img']
                 }
-            except requests.exceptions.ConnectionError:
-                print('Error fetching image url, skipping this comic..\n')
-                continue
+
             except UnboundLocalError:
                 continue
 
 
 
             up_lines(1)
-            print(f'Downloading comic data from https://xkcd.com/{comic_number}'.ljust(80, ' '))
+            print(f'Downloading comic data from https://xkcd.com/{get_json["num"]}'.ljust(80, ' '))
             iterate += 1
             loading_bar(iterate, total)
 
-            if comic_number % 10 == 0: # write to file every 10 iteration
+            if get_json["num"] % 10 == 0: # write to file every 10 iteration
                 database.update_database(comic_db)
 
 
