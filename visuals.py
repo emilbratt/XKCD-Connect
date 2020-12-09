@@ -12,7 +12,7 @@ def main_menu():
                   ------------------
 ''')
         print('\t\tWhat do you want to do?\n')
-        print('''\t1. Download all comic images your hard drive
+        print('''\t1. Download all comic images to your hard drive
 \t2. Chose a comic to open from xkcd.com
 \t3. Open a random comic from xkcd.com
 \t4. Exit''')
